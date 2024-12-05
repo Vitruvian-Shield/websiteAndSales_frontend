@@ -6,7 +6,7 @@ import moment from 'moment';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Facebook from '../../assets/logos_facebook.png';
 import Share from '../../assets/logos_share.png';
-import Twitter from '../../assets/logos_Twitter.png';
+import Twitter from '../../assets/logos_twitter.png';
 import Mediacard from './Mediacard.jsx';
 import noto_pushpin from "../../assets/noto_pushpin.svg";
 import blueArrowIcon from "../../assets/blueArrowIcon.svg";
