@@ -85,7 +85,7 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({email, password}),
+                    body: JSON.stringify({email, password,...formData}),
                 });
 
                 if (registerResponse.ok) {
@@ -93,7 +93,7 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
                     showSnackbar('Registration successful!', 'success');
                 } else {
                     const errorData = await registerResponse.json();
-                    showSnackbar(errorData.message || 'Registration failed. Please try again.', 'error');
+                    showSnackbar(errorData.password || errorData.email || errorData.first_name || errorData.last_name || 'Registration failed. Please try again.', 'error');
                 }
             }
         } catch (error) {
@@ -305,22 +305,22 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
             </Box>
             <Box
                 display="flex"
-                justifyContent="left"
-                width="380px"
+                justifyContent="center"
+                fullWidth
                 sx={{
+                    mt: '24px',
                     mb: '24px',
-                    ml:1,
                 }}
             >
                 <Typography
                     sx={{
-                        mx: 1.3,
+                        mx: 0.5,
                         color: '#9f9b9b',
                         fontSize: '14px',
                         fontFamily: 'Lato',
                     }}
                 >
-                    {signIn ? 'do you have an account?' : 'do you registered?'}
+                    {signIn ? 'Already have an account?' : 'Don’t have an account?'}
                 </Typography>
                 <Link
                     href="#"
@@ -329,7 +329,7 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
                     sx={{ textDecoration: 'none', fontSize: '14px', color: 'white' }}
                     onClick={() => setSignIn((prevSignIn) => !prevSignIn)}
                     >
-                    {signIn ? 'LogIn' : 'SignUp'}
+                    {signIn ? 'Log in' : 'Sign up'}
                 </Link>
             </Box>
             <Snackbar

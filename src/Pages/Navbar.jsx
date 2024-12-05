@@ -96,7 +96,6 @@ const Navbar = React.memo((props) => {
     const openProductMenu = Boolean(anchorElProduct);
     const openProfileMenu = Boolean(anchorElProfile);
     const [isProductsOpen, setIsProductsOpen] = useState(false);
-    const toggleDrawer = useCallback((open) => () => setDrawerOpen(open), []);
     const { authToken, logout } = useAuth();
     const Token = localStorage.getItem('authToken') || authToken;
     const [picData , setPicData] = useState(null);
@@ -197,7 +196,6 @@ const Navbar = React.memo((props) => {
     ];
 
     const toggleDrawer = useCallback((open) => () => setDrawerOpen(open), []);
-    const { authToken, logout } = useAuth(); // Using the useAuth hook
 
     return (
         <>
