@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     FormControl, InputLabel, OutlinedInput, Box, Button, Link,
-    InputAdornment, IconButton, Snackbar, Alert, Typography
+    InputAdornment, IconButton, Snackbar, Alert, Typography, TextField
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import PropTypes from 'prop-types';
@@ -21,9 +21,17 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [passwordFocused, setPasswordFocused] = useState(false);
+    const [signIn,setSignIn] = useState(false);
+    const formFields = ["first_name", "last_name"];
     const handleEmailChange = (event) => setEmail(event.target.value);
     const handlePasswordChange = (event) => setPassword(event.target.value);
     const validateEmail = (email) => /\S+@\S+\.\S+/.test(email);
+    const [formData, setFormData] = useState({first_name: "", last_name: "",});
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
 
     useEffect(() => {
         if (initialEmail) {
@@ -49,52 +57,51 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
         }
 
         try {
-            const loginResponse = await fetch('https://vitruvianshield.com/api/v1/token/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
+            if (!signIn) {
+                const loginResponse = await fetch('https://vitruvianshield.com/api/v1/token/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({email, password}),
+                });
 
-            const loginData = await loginResponse.json();
-
-            if (loginResponse.status === 200) {
-                localStorage.setItem('authToken', loginData.access);
-                localStorage.setItem('refreshToken', loginData.refresh);
-                onLoginSuccess();
-                showSnackbar('Login successful!', 'success');
-            } else if (loginResponse.status === 202) {
-                showSnackbar('User not verified.', 'error');
-                onSendResetLink(email);
-            } else if (loginResponse.status === 401) {
-                showSnackbar('User not found. Registering...', 'info');
-
+                if (loginResponse.ok) {
+                    const loginData = await loginResponse.json();
+                    localStorage.setItem('authToken', loginData.access);
+                    localStorage.setItem('refreshToken', loginData.refresh);
+                    onLoginSuccess();
+                    showSnackbar('Login successful!', 'success');
+                } else if (loginResponse.status === 202) {
+                    showSnackbar('User not verified.', 'error');
+                    onSendResetLink(email);
+                } else {
+                    const errorData = await loginResponse.json();
+                    showSnackbar(errorData.message || 'Login failed. Please try again.', 'error');
+                }
+            } else {
                 const registerResponse = await fetch('https://vitruvianshield.com/api/v1/register/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ email, password }),
+                    body: JSON.stringify({email, password}),
                 });
 
-                const registerData = await registerResponse.json();
-
-                if (registerResponse.status === 201) {
+                if (registerResponse.ok) {
                     onSendResetLink(email, password);
                     showSnackbar('Registration successful!', 'success');
                 } else {
-                    showSnackbar(registerData.message || 'Registration failed. Please try again.', 'error');
+                    const errorData = await registerResponse.json();
+                    showSnackbar(errorData.message || 'Registration failed. Please try again.', 'error');
                 }
-            } else {
-                showSnackbar(loginData.message || 'Login failed. Please check your credentials.', 'error');
             }
         } catch (error) {
             showSnackbar('An unexpected error occurred. Please try again.', 'error');
         }
     };
 
-    const handleCloseSnackbar = () => setOpenSnackbar(false);
+        const handleCloseSnackbar = () => setOpenSnackbar(false);
 
     const handleSuccessGoogle = async (response) => {
         try {
@@ -121,18 +128,65 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
 
 
     return (
-        <Box sx={{width:'80%'}}>
+        <Box sx={{width: '80%',}}>
             <form onSubmit={handleSubmit}>
-                <FormControl variant="outlined" fullWidth sx={{ mb: '18px' }}>
+                    <Box sx={{display: signIn ? 'flex' : 'none',flexDirection:'row',gap:'12px',mb:'12px' }}>
+                        {formFields.map((field) => (
+                            <Box key={field} sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                                <TextField
+                                    id={field}
+                                    fullWidth
+                                    variant="outlined"
+                                    name={field}
+                                    value={formData[field]}
+                                    onChange={handleInputChange}
+                                    autoComplete="off"
+                                    placeholder={field === "first_name" ? "First name" : "Last name"}
+                                    InputProps={{
+                                        style: {
+                                            color: "#000",
+                                            height: "48px",
+                                            fontSize: "13px",
+                                            textJustify: "center",
+                                        },
+                                    }}
+                                    sx={{
+                                        borderRadius: "6px",
+                                        height: "48px",
+                                        boxSizing: "border-box",
+                                        backgroundColor: "#FFFFFF",
+                                        transition: "border-color 0.3s, box-shadow 0.3s",
+                                        "& .MuiOutlinedInput-notchedOutline": {
+                                            borderColor: "transparent",
+                                        },
+                                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                                            borderColor: "transparent", // Transparent-like hover effect
+                                        },
+                                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                                            borderWidth: "1px",
+                                            borderColor: "transparent", // Slightly darker focus border
+                                        },
+                                        "& .MuiOutlinedInput-input": {
+                                            padding: "12px 14px",
+
+                                        },
+                                    }}
+                                />
+
+                            </Box>
+                        ))}
+                </Box>
+                <FormControl variant="outlined" fullWidth sx={{ mb: '12px' }}>
                     <FormInput
                         placeholder='Enter your email'
                         value={email}
                         setValue={setEmail}
-                        borderRadius='4px'
+                        borderRadius='6px'
                         height='48px'
                         aria-label="Email address"
                         inputname='email'
                         hiddenError={true}
+                        ml={0}
                     />
                 </FormControl>
                 <FormControl variant="outlined" fullWidth sx={{ mb: 2 }}>
@@ -143,7 +197,6 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
                             opacity: passwordFocused || password ? 0 : 0.4,
                             fontSize:'13px',
                             textJustify:'center',
-                            ml:1.3,
                         }}
                     >
                         Enter your password
@@ -157,6 +210,7 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
                         onChange={(e) => setPassword(e.target.value)}
                         autoComplete="off"
                         sx={{
+                            borderRadius: "6px",
                             pl:1.3,
                             height: '48px',
                             boxSizing: 'border-box',
@@ -190,14 +244,13 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
                 </FormControl>
 
 
-
                 <Box
-                    display="flex"
                     justifyContent="left"
                     width="380px"
                     sx={{
                         mb: '24px',
                         ml:1,
+                        display: signIn ? 'none' : 'flex'
                     }}
                 >
                     <Link
@@ -230,9 +283,10 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
                         
                     }}
                 >
-                    Get started
+                    {signIn ? 'SignUp' : 'LogIn'}
                 </Button>
             </form>
+            <Box sx={{display: signIn ? 'none' : 'block' }}>
             <Box display="flex" alignItems="center" width="100%" maxWidth="380px" mb="28px">
                 <Box flexGrow={1} height="1px" bgcolor="#9f9b9b" />
                 <Typography
@@ -248,6 +302,36 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
                 <Box flexGrow={1} height="1px" bgcolor="#9f9b9b" />
             </Box>
             <GoogleSignInButton onSuccess={handleSuccessGoogle} onFailure={handleFailureGoogle} />
+            </Box>
+            <Box
+                display="flex"
+                justifyContent="left"
+                width="380px"
+                sx={{
+                    mb: '24px',
+                    ml:1,
+                }}
+            >
+                <Typography
+                    sx={{
+                        mx: 1.3,
+                        color: '#9f9b9b',
+                        fontSize: '14px',
+                        fontFamily: 'Lato',
+                    }}
+                >
+                    {signIn ? 'do you have an account?' : 'do you registered?'}
+                </Typography>
+                <Link
+                    href="#"
+                    variant="h6"
+                    color="#5EA5D4"
+                    sx={{ textDecoration: 'none', fontSize: '14px', color: 'white' }}
+                    onClick={() => setSignIn((prevSignIn) => !prevSignIn)}
+                    >
+                    {signIn ? 'LogIn' : 'SignUp'}
+                </Link>
+            </Box>
             <Snackbar
                 open={openSnackbar}
                 autoHideDuration={6000}
@@ -258,6 +342,7 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
                 </Alert>
             </Snackbar>
         </Box>
+
     );
 };
 

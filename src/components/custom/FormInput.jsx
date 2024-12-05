@@ -89,7 +89,7 @@ const FormInput = ({
                         p: '24!important',
                         boxSizing: 'border-box',
                         height: '100%',
-                        px: '24px!important',
+                        px: '13px!important',
                         background: `${disabled ? cf5f5f5 : cffffff}`,
                         fontSize: `${f14}`,
                         borderRadius: { xs: borderRadius ? borderRadius : '5px', sm: borderRadius ? borderRadius : '8px' },

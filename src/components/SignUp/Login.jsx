@@ -77,58 +77,6 @@ const LoginDialog = ({ email, onForgotPassword, onClose, onLoginSuccess, onSendR
                 <LoginForm email={email} onForgotPassword={onForgotPassword} onLoginSuccess={onLoginSuccess} onSendResetLink={onSendResetLink} />
                 <Box mb='16px'></Box>
 
-                {/*<Box display="flex" alignItems="center" width="100%" maxWidth="380px" mb='28px'>*/}
-                {/*    <Box flexGrow={1} height="1px" bgcolor="#9f9b9b" />*/}
-                {/*    <Typography sx={{*/}
-                {/*        mx: 1.3,*/}
-                {/*        color: '#9f9b9b',*/}
-                {/*        fontSize:'14px',*/}
-                {/*        fontFamily:'Lato'*/}
-                {/*    }}>Or</Typography>*/}
-                {/*    <Box flexGrow={1} height="1px" bgcolor="#9f9b9b" />*/}
-                {/*</Box>*/}
-
-                {/*<Box display="flex" justifyContent="center" width="100%" mb={2}>*/}
-                {/*    <Button*/}
-                {/*        variant="outlined"*/}
-                {/*        sx={{*/}
-                {/*            borderColor: 'white',*/}
-                {/*            color: '#FFFFFF',*/}
-                {/*            maxWidth: '380px',*/}
-                {/*            width: '100%',*/}
-                {/*            height: '44px',*/}
-                {/*            textTransform: 'none',*/}
-                {/*            fontFamily:'Lato',*/}
-                {/*            fontWeight:500,*/}
-                {/*            fontSize:'14px'*/}
-                {/*        }}*/}
-                {/*        startIcon={<img src={google} alt="Google Logo" style={{ width: 24, height: 24 }} />}*/}
-                {/*        aria-label="Sign in with Google"*/}
-                {/*    >*/}
-                {/*        Sign in with Google*/}
-                {/*    </Button>*/}
-                {/*</Box>*/}
-
-                {/*<Box display="flex" justifyContent="center" width="100%" mb={6}>*/}
-                {/*    <Button*/}
-                {/*        variant="outlined"*/}
-                {/*        sx={{*/}
-                {/*            borderColor: 'white',*/}
-                {/*            color: '#FFFFFF',*/}
-                {/*            maxWidth: '380px',*/}
-                {/*            width: '100%',*/}
-                {/*            height: '44px',*/}
-                {/*            textTransform: 'none',*/}
-                {/*            fontFamily:'Lato',*/}
-                {/*            fontWeight:500,*/}
-                {/*            fontSize:'14px'*/}
-                {/*        }}*/}
-                {/*        startIcon={<img src={apple} alt="Apple Logo" style={{ width: 24, height: 24 }} />}*/}
-                {/*        aria-label="Sign in with Apple Id"*/}
-                {/*    >*/}
-                {/*        Sign in with Apple*/}
-                {/*    </Button>*/}
-                {/*</Box>*/}
 
                 <Snackbar
                     open={openSnackbar}
