@@ -5,7 +5,7 @@ import {
     createTheme,
     ThemeProvider, Divider,
 } from "@mui/material";
-import linkedin from "../../assets/inIcon.svg";
+import linkedin from "../../assets/InIcon.svg";
 import backgroundImage from "../../assets/aboutUs1.svg";
 
 const theme = createTheme({
