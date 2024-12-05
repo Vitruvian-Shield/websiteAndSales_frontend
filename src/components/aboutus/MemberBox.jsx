@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Typography } from "@mui/material";
-import Allinonecard from './AllInOneCard';
+import Allinonecard from './AllInOneCard.jsx';
 import bg from '../../assets/membersBG1.svg';
 
 const theme = createTheme({
