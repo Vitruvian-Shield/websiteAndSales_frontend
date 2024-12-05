@@ -3,7 +3,8 @@ import {Box, Button} from "@mui/material";
 import google from '../../assets/Google.png';
 
 const GoogleSignInButton = () => {
-  const googleClientId = "1037115696115-5cvfcpvi40n6fhk2hepv8450vn712qud.apps.googleusercontent.com"
+  const googleClientId =
+    "1037115696115-5cvfcpvi40n6fhk2hepv8450vn712qud.apps.googleusercontent.com";
   const redirectUri = "https://vitruvianshield.com/google/callback";
 
   const handleSignIn = () => {
@@ -13,27 +14,41 @@ const GoogleSignInButton = () => {
   };
 
   return (
-      <Box display="flex" justifyContent="center" width="100%" mb={2}>
-        <Button
-            onClick={handleSignIn}
-            variant="outlined"
-            sx={{
-              borderColor: 'white',
-              color: '#FFFFFF',
-              maxWidth: '380px',
-              width: '100%',
-              height: '44px',
-              textTransform: 'none',
-              fontFamily: 'Lato',
-              fontWeight: 500,
-              fontSize: '14px',
-            }}
-            startIcon={<img src={google} alt="Google Logo" style={{ width: 24, height: 24 }} />}
-            aria-label="Sign in with Google"
-        >
-          Sign in with Google
-        </Button>
-      </Box>
+
+    <button
+      onClick={handleSignIn}
+      style={{
+        padding: "10px 20px",
+        border: "1px solid #FCFCFC", // Fixed `borderColor`
+        borderRadius:'4px',
+        background: "transparent",
+        maxWidth: "380px",
+        width: "100%",
+        height: "44px",
+        textTransform: "none",
+        color:'#FFFFFF',
+        fontFamily: "Lato",
+        fontWeight: 500,
+        fontSize: "14px",
+        display: "flex", // Added flexbox for alignment
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "10px", // Space between logo and text
+        cursor: "pointer",
+      }}
+      aria-label="Sign in with Google"
+    >
+      <img
+        src={google}
+        alt="Google Logo"
+        style={{
+          width: "24px",
+          height: "24px",
+          display: "block", // Ensures proper rendering
+        }}
+      />
+      Log in with Google
+    </button>
   );
 };
 

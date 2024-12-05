@@ -37,7 +37,7 @@ const AppRoutes = () => {
                     <Route path="/event" element={<Event />} />
                     <Route path='/google/callback' element={<GoogleLogin />} />
                     <Route path="/Test" element={<Test />} />
-                    <Route path="/Certifications" element={<Certifications/>} />
+                    {/* <Route path="/Certifications" element={<Certifications/>} /> */}
             </Routes>
         );
 }

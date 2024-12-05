@@ -112,7 +112,7 @@ const Certifications = () => {
                 backgroundSize: 'cover',
                 backgroundPosition: 'top right',
                 backgroundRepeat: 'no-repeat',
-                pt: { xs: '24px', sm: '130px', md: '130px', lg: '168px' },
+                pt: { xs: '24px', sm: '36px', md: '48px', lg: '56px' },
                 pb: { xs: '80px', sm: '90px', md: '100px', lg: '112px' },
                 boxSizing: 'border-box'
             }}

@@ -11,10 +11,10 @@ const theme = createTheme({
             main: '#ff0000',
         },
         warning: {
-            main: '#ff9800', // رنگ هشدار
+            main: '#ff9800',
         },
         info: {
-            main: '#2196f3', // رنگ اطلاعات
+            main: '#2196f3',
         },
     },
     typography: {
@@ -291,16 +291,16 @@ const EmailVerification = ({ email, password, onSubmit, onResend, onBack }) => {
 
                 </Box>
 
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, maxWidth: '350px' }}>
-                    <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                        Your verification code may take a few moments to arrive. Didn't receive a verification code? {timeLeft > 0 ? formatTime(timeLeft) : (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, maxWidth: '360px' }}>
+                    <Typography variant="body2" sx={{ textAlign: 'center',color:'#BFBFBF' }}>
+                    Your verification code may take a few moments to arrive Didn't receive a verification code? {timeLeft > 0 ? formatTime(timeLeft) : (
                         <Link
                             component="button"
                             variant="body2"
                             onClick={handleResend}
                             sx={{
                                 mb: 0.5,
-                                color: 'inherit',
+                                color: '#FCFCFC',
                                 '&:hover': {
                                     color: 'primary.main',
                                     textDecoration: 'underline',

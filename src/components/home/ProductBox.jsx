@@ -162,8 +162,8 @@ const ProductBox = () => {
                             >
                                 <Box sx={{
                                     backgroundImage: `url(${item.image})`,
-                                    width: '100%',
-                                    height: '100%',
+                                    width: '85%',
+                                    height: '85%',
                                     backgroundSize: 'contain',
                                     backgroundRepeat: 'no-repeat',
                                     backgroundPosition: 'center',

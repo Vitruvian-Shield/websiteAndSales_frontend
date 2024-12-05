@@ -1,9 +1,10 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import CompanyBox from '../components/company/CompanyBox.jsx'
-import CertificationBox from '../components/company/CertificationBox.jsx'
+import Certification from '../Pages/Certifications.jsx'
 import PartnerBox from '../components/company/PartnerBox.jsx'
 import PricingBox from '../components/company/PricingBox.jsx'
+
 
 const Company = () =>{
     return(
@@ -83,7 +84,10 @@ const Company = () =>{
             >
                 <PricingBox />
             </Box>
-            
+
+
+
+            <Certification />
             
 
 

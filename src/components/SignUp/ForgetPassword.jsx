@@ -98,13 +98,14 @@ const ForgotPasswordDialog = ({ onBack, showSnackbar, }) => {
                         boxSizing: 'border-box'
                     }}
                 >
-                    <Box display="flex" flexDirection="column" alignItems="center" mb={2}>
+                    <Box display="flex" flexDirection="column" alignItems="center" mb={4}>
                         <Typography
                             sx={{
                                 ...navItemStyle,
                                 fontSize: '18px',
                                 fontWeight: 600,
-                                color: '#fff'
+                                color: '#fff',
+                                fontFamily:'Lato'
                             }}>
                             Forget password?
                         </Typography>
@@ -114,7 +115,8 @@ const ForgotPasswordDialog = ({ onBack, showSnackbar, }) => {
                                 fontSize: '14px',
                                 color: '#bfbfbf',
                                 mt: '8px',
-                                lineHeight: '100%'
+                                lineHeight: '100%',
+                                fontFamily:'Lato'
                             }}
                         >
                             No worries, we'll send you reset instructions
@@ -150,14 +152,14 @@ const ForgotPasswordDialog = ({ onBack, showSnackbar, }) => {
                                 }}
                                 onClick={handleSendResetLink} // استفاده از handleSendResetLink
                             >
-                                Send Reset Link
+                                Reset Password
                             </Button>
                         </Box>
                         <Box display="flex" justifyContent="center" width="100%" mt='16px'>
                             <Button
                                 variant="outlined"
                                 sx={{
-                                    borderColor: 'white',
+                                    border: '2px solid #F5F5F5',
                                     color: '#FFFFFF',
                                     maxWidth: '380px',
                                     width: '100%',
@@ -169,7 +171,7 @@ const ForgotPasswordDialog = ({ onBack, showSnackbar, }) => {
                                 }}
                                 onClick={onBack}
                             >
-                                Cancel
+                                Back
                             </Button>
                         </Box>
                     </form>

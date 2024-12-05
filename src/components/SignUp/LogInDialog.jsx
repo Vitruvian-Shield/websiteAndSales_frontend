@@ -104,7 +104,7 @@ const SignUpDialog = ({ open, onClose, email: initialEmail = null }) => {
                     borderRadius: '15px',
                     backgroundColor: '#262626',
                     color: '#FFFFFF',
-                    maxWidth: '480px',
+                    maxWidth: '448px',
                     overflow: 'hidden',
                     px: '60px',
                     maxHeight: '672px',
