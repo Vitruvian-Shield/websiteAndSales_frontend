@@ -5,6 +5,7 @@
     import ChangeEmail from './ChangeEmail';
     import ChangePhone from './ChangePhone';
     import camera from '../../assets/cameraAddPic.png'
+    import ImageCropDialog from "./CropDialog";
     const theme = createTheme({
         typography: {
             h6: {
@@ -61,7 +62,9 @@
         const [dialogOpen, setDialogOpen] = useState(false);
         const [PhoneDialogOpen, setPhoneDialogOpen] = useState(false);
         const [focused, setFocused] = useState(false);
-
+        const [isDialogOpen, setIsDialogOpen] = useState(false);
+        const [croppedImage, setCroppedImage] = useState(null);
+        const [srcPic, setSrcPic] = useState(null);
 
 
         useEffect(() => {
@@ -164,10 +167,11 @@
 
         const handleFileChange = async (event) => {
             const selectedFile = event.target.files[0];
-            if (selectedFile && selectedFile.type === "image/png") {
-                await uploadFile(selectedFile);
-            }
+            const imageUrl = URL.createObjectURL(selectedFile);
+            setSrcPic(imageUrl);
+            setIsDialogOpen(true);
         };
+
 
         const uploadFile = async (file) => {
             try {
@@ -195,6 +199,14 @@
                 alert("An error occurred during file upload.");
             }
         };
+        const handleCropComplete = async (croppedArea) => {
+            console.log("Cropped Area: ", croppedArea);
+            setCroppedImage(croppedArea);
+            if (croppedImage) {
+                await uploadFile(croppedImage);
+            }
+        };
+
         return (
             <ThemeProvider theme={theme}>
                 <Box sx={{ width: '100%', background: '#262626',alignContent:'center',height: '100%',mb:{ sm: '0vw', xs: '13vw' },mt:{ sm: '3vw', xs: '0vw' } }}>
@@ -212,7 +224,7 @@
 
                             <input
                                 type="file"
-                                accept="image/png"
+                                accept="image/*"
                                 onChange={handleFileChange}
                                 style={{
                                     display: "none",
@@ -494,6 +506,7 @@
 
                 <ChangeEmail open={dialogOpen} onClose={() => setDialogOpen(false)} />
                 <ChangePhone open={PhoneDialogOpen} onClose={() => setPhoneDialogOpen(false)} />
+                <ImageCropDialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)} imageSrc={srcPic} onCropComplete={handleCropComplete}/>
             </ThemeProvider>
         );
     };
