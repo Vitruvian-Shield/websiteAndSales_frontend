@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAuth } from '../../AuthContext.jsx';
-import SignUpDialog from '../SignUp/SignUpDialog.jsx';
+import SignUpDialog from '../SignUp/LoginDialog.jsx';
 
 const theme = createTheme({
     palette: {

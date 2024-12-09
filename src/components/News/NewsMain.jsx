@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Mediacard from './Mediacard';
 import { Typography } from "@mui/material";
-import Allinonecard from './Allinonecard';
+import Allinonecard from './AllInOneCard';
 
 const theme = createTheme({
     typography: {
