@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useAuth } from '../../AuthContext.jsx';
 import BG from "../../assets/newsBoxBG.svg";
-import SignUpDialog from '../SignUp/SignUpDialog.jsx';
+import SignUpDialog from '../SignUp/LogInDialog.jsx';
 
 
 const theme = createTheme({

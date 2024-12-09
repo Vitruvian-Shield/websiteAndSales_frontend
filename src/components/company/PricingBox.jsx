@@ -14,7 +14,7 @@ import pricingBG from '../../assets/pricingBG.png';
 import { useAuth } from "../../AuthContext.jsx";
 import { Close as CloseIcon } from "@mui/icons-material";
 import axios from "axios";
-import SignUpDialog from '../SignUp/SignUpDialog.jsx';
+import SignUpDialog from '../SignUp/LogInDialog.jsx';
 
 // Custom MUI theme for typography
 const theme = createTheme({

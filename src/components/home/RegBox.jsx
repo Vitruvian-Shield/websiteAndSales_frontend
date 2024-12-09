@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Typography, Button, Box, OutlinedInput, FormControl, InputLabel, } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import backgroundImage from '/src/assets/BG.svg';
-import SignUpDialog from "../SignUp/SignUpDialog.jsx";
+import SignUpDialog from "../SignUp/LogInDialog.jsx";
 import FormInput from '../custom/FormInput.jsx'
 
 const navItemStyle = {
