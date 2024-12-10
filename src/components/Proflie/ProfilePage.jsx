@@ -9,15 +9,15 @@
         typography: {
             h6: {
                 fontFamily: 'Lato',
-                fontSize: { xs: '12px', sm: '18px' },
+                fontSize: { xs: '12px', sm: '16px' },
                 lineHeight: 'normal',
                 color: '#8C8C8C',
                 textTransform: 'none',
             },
             h3: {
                 fontFamily: "Lato",
-                fontWeight: { xs: 600, sm: 700 },
-                fontSize: { xs: '14px', sm: '35px' },
+                fontWeight: 600,
+                fontSize: { xs: '14px', sm: '19px' },
                 color: "#FFFFFF",
                 textTransform: 'none',
             },
@@ -197,7 +197,7 @@
         };
         return (
             <ThemeProvider theme={theme}>
-                <Box sx={{ width: '100%', background: '#262626',alignContent:'center',height: '100%',mb:{ sm: '0vw', xs: '13vw' },mt:{ sm: '3vw', xs: '0vw' } }}>
+                <Box sx={{ width: '100%', background: '#262626',alignContent:'center',height: '100%',mb:{ sm: '0vw', xs: '13vw' },pt:{ sm: '4.5vw', xs: '0vw' },pb:'3vw' }}>
                     <Box
                         sx={{
                             ml:{ sm: '5vw', xs: '0' },
@@ -297,7 +297,8 @@
                                     display: 'flex',
                                     flexWrap: 'wrap',
                                     gap: '2vw',
-                                    ml:'1vw',
+                                    ml:'3vw',
+                                    mt:'3vw',
                                     flexDirection: { xs: 'column', sm: 'row' },
                                 }}
                             >

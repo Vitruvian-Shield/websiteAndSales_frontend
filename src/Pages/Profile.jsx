@@ -35,8 +35,16 @@ const theme = createTheme({
             fontFamily: 'Lato',
             fontSize: { xs: '12.64px', sm: '13px', md: '13.5px', lg: '14px' },
             lineHeight: '18.5px',
-            fontWeight: 600,
+            fontWeight: 500,
             color: "#FFFFFFCC",
+            letterSpacing: '0.4px',
+        },
+        body2: {
+            fontFamily: 'Lato',
+            fontSize: { xs: '12.64px', sm: '13.5px', md: '14px', lg: '15px' },
+            lineHeight: '18px',
+            fontWeight: 500,
+            color: "#FFFFFF",
             letterSpacing: '0.4px',
         },
     },
@@ -49,6 +57,7 @@ const Sidebar = ({ activePage, setActivePage }) => (
         sx={{
             display:{xs:'none',sm:'block'},
             width: '329px',
+            height:'auto',
             flexShrink: 0,
             background: 'linear-gradient(180deg, #1F1F1F 0%, #141414 100%)',
             p: '42px 32px 42px 32px',
@@ -62,6 +71,7 @@ const Sidebar = ({ activePage, setActivePage }) => (
             Manage your personal information, billing and payments, and apps.
         </Typography>
         <List
+        variant="body2"
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -80,7 +90,9 @@ const Sidebar = ({ activePage, setActivePage }) => (
                     onClick={() => setActivePage(item.page)}
                     sx={{
                         borderRadius: '20px',
+                        height:'40px',
                         mb: '14px',
+                        gap: 1,
                         background: activePage === item.page
                             ? '#00544D80'
                             : 'linear-gradient(90deg, rgba(74, 74, 74, 0.9) 0%, rgba(31, 31, 31, 0.9) 100%)',
@@ -90,19 +102,30 @@ const Sidebar = ({ activePage, setActivePage }) => (
                             background: activePage === item.page
                                 ? '#00544D80'
                                 : 'linear-gradient(90deg, rgba(74, 74, 74, 0.9) 0%, rgba(31, 31, 31, 0.9) 100%)',
-                            border: '1px solid #8AE3BE4D',
+                            border: '1.5px solid #8AE3BE4D',
                             cursor: 'pointer',
                         },
                     }}
                 >
-
-                    <ListItemIcon>
-                        <img src={item.icon} alt={`${item.text} icon`} style={{ width: 24, height: 24 }} />
+                    <ListItemIcon
+                        sx={{
+                            minWidth: 28,
+                            display: 'flex',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <img src={item.icon} alt={`${item.text} icon`} style={{ width: 24, height: 24}} />
                     </ListItemIcon>
-                    <ListItemText primary={item.text} />
+                    <ListItemText 
+                        primary={item.text} 
+                        sx={{
+                            margin: 0
+                        }} 
+                    />
                 </ListItem>
             ))}
         </List>
+
     </Box>
 );
 
