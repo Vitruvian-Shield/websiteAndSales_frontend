@@ -15,6 +15,7 @@ import { useAuth } from "../../AuthContext.jsx";
 import { Close as CloseIcon } from "@mui/icons-material";
 import axios from "axios";
 import SignUpDialog from '../SignUp/LogInDialog.jsx';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 // Custom MUI theme for typography
 const theme = createTheme({
@@ -122,7 +123,7 @@ const PricingBox = () => {
     useEffect(() => {
         const fetchLabelsRPM = async () => {
             try {
-                const response = await axios.get('https://vitruvianshield.com/api/v1/rpm-features');
+                const response = await axios.get(`${apiUrl}/api/v1/rpm-features`);
                 const labels = response.data;
                 setLabelsRPM(labels);
             } catch (error) {
@@ -138,7 +139,7 @@ const PricingBox = () => {
     useEffect(() => {
         const fetchLabelsCTMS = async () => {
             try {
-                const response = await axios.get('https://vitruvianshield.com/api/v1/ctms-features');
+                const response = await axios.get(`${apiUrl}/api/v1/ctms-features`);
                 const labels = response.data;
                 setLabelsCTMS(labels);
             } catch (error) {
@@ -187,7 +188,7 @@ const PricingBox = () => {
         };
         if (authToken) {
             try {
-                await axios.post("https://vitruvianshield.com/api/v1/ctms-feature-req", payload, {
+                await axios.post(`${apiUrl}/api/v1/ctms-feature-req`, payload, {
                     headers: {
                         Authorization: `Bearer ${Token}`,
                     },
@@ -216,7 +217,7 @@ const PricingBox = () => {
         };
         if (authToken) {
             try {
-                await axios.post("https://vitruvianshield.com/api/v1/rpm-feature-req", payload, {
+                await axios.post(`${apiUrl}/api/v1/rpm-feature-req`, payload, {
                     headers: {
                         Authorization: `Bearer ${Token}`,
                     },

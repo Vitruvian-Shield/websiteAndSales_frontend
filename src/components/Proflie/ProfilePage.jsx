@@ -6,6 +6,8 @@
     import ChangePhone from './ChangePhone';
     import camera from '../../assets/cameraAddPic.png'
     import ImageCropDialog from "./CropDialog";
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     const theme = createTheme({
         typography: {
             h6: {
@@ -81,7 +83,7 @@
             const fetchUserData = async () => {
                 try {
                     const { data } = await axios.get(
-                        'https://vitruvianshield.com/api/v1/user/settings',
+                        `${apiUrl}/api/v1/user/settings`,
                         { headers: { 'Authorization': `Bearer ${Token}` } }
                     );
 
@@ -93,7 +95,7 @@
                         await downloadAndStoreImage(data.picture);
                     }
 
-                    const countriesResponse = await axios.get('https://vitruvianshield.com/api/v1/countries');
+                    const countriesResponse = await axios.get(`${apiUrl}/api/v1/countries`);
                     setCountryList(countriesResponse.data);
 
                     if (data.country) {
@@ -158,7 +160,7 @@
 
             try {
                 await axios.patch(
-                    'https://vitruvianshield.com/api/v1/user/settings',
+                    `${apiUrl}/api/v1/user/settings`,
                     { ...dataToSend, phone: formatPhoneNumber(phoneWithPrefix) },
                     { headers: { 'Authorization': `Bearer ${Token}` } }
                 );
@@ -189,7 +191,7 @@
                 formData.append("picture", file);
 
                 const response = await axios.post(
-                    "https://vitruvianshield.com/api/v1/user/new-picture/",
+                    `${apiUrl}/api/v1/user/new-picture/`,
                     formData,
                     {
                         headers: {
