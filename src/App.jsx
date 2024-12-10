@@ -5,7 +5,7 @@ import AppRoutes from './Routes';
 import Footer from './Pages/Footer';
 import { AuthProvider } from './AuthContext.jsx';
 import "@fontsource/lato";
-import './app.css';
+import './App.css';
 import ScrollToTop from './ScrollToTop.jsx';
 
 const App = () => {
