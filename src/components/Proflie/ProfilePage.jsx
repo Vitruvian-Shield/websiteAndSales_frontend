@@ -24,7 +24,7 @@
             },
             button: {
                 fontFamily: 'Lato',
-                fontSize: { xs: '10px', sm: '16px' },
+                fontSize: { xs: '14px', sm: '16px' },
                 color: "#F1F1F1",
                 textTransform: 'none',
                 textAlign: 'left',
@@ -34,6 +34,17 @@
             text: {
                 primary: "#F1F1F1",
                 disabled: "#A5A5A5",
+            },
+        },
+        components: {
+            MuiButton: {
+                styleOverrides: {
+                    root: {
+                        '&.Mui-disabled': {
+                            fontSize: '14px',
+                        },
+                    },
+                },
             },
         },
     });
@@ -63,7 +74,6 @@
         const [PhoneDialogOpen, setPhoneDialogOpen] = useState(false);
         const [focused, setFocused] = useState(false);
         const [isDialogOpen, setIsDialogOpen] = useState(false);
-        const [croppedImage, setCroppedImage] = useState(null);
         const [srcPic, setSrcPic] = useState(null);
 
 
@@ -200,10 +210,13 @@
             }
         };
         const handleCropComplete = async (croppedArea) => {
-            console.log("Cropped Area: ", croppedArea);
-            setCroppedImage(croppedArea);
-            if (croppedImage) {
-                await uploadFile(croppedImage);
+            console.log("Cropped Area: ", croppedArea, croppedArea.type);
+
+            const croppedFile = new File([croppedArea], "cropped-image.png", { type: "image/png" });
+            console.log("Cropped File: ", croppedFile);
+            // آپلود فایل
+            if (croppedFile) {
+                await uploadFile(croppedFile);
             }
         };
 
@@ -303,7 +316,7 @@
 
                    </Box>
                     <Box sx={{ml:{ sm: '5vw', xs: '0' },}}>
-                        <Paper component="form" onSubmit={handleSubmit} sx={{ml:{xs:'12vw',sm:'5px'},width:{xs:'0vw',sm:'60vw'},pb:'3vw', borderRadius: '16px',background: '#262626', border: '1px solid', borderImageSource: 'linear-gradient(180deg, rgba(31, 31, 31, 0.3) 0%, rgba(20, 20, 20, 0.3) 100%)', boxShadow: '0px 2px 8px 0px #0000001A', }}>
+                        <Paper component="form" onSubmit={handleSubmit} sx={{ml:{xs:'9vw',sm:'5px'},width:{xs:'0vw',sm:'60vw'},pb:'3vw', borderRadius: '16px',background: '#262626', border: '1px solid', borderImageSource: 'linear-gradient(180deg, rgba(31, 31, 31, 0.3) 0%, rgba(20, 20, 20, 0.3) 100%)', boxShadow: '0px 2px 8px 0px #0000001A', }}>
                             <Box
                                 sx={{
                                     display: 'flex',
@@ -333,12 +346,13 @@
                                                     justifyContent: 'flex-start',
                                                     alignItems: 'center',
                                                     paddingLeft: '10px',
-                                                    color: !isEditing ? theme.palette.text.disabled : theme.typography.h6.color,
+                                                    color: !isEditing ? theme.palette.text.disabled : '#F1F1F1',
                                                     "&:hover": {
                                                         backgroundColor: !isEditing ? '#262626' : '#333',
                                                         cursor: field === 'phone' ? 'not-allowed' : 'pointer',
                                                     },
                                                     "&.Mui-disabled": {
+                                                        ...theme.typography.button,
                                                         backgroundColor: '#262626',
                                                         borderColor: '#ccc',
                                                         color: theme.palette.text.disabled,
@@ -399,7 +413,8 @@
                                                                     borderColor: isEditing ? "#fff" : "#ccc",
                                                                 },
                                                                 ...(isEditing && {
-
+                                                                    ...theme.typography.button,
+                                                                    color:'#F1F1F1',
                                                                     "&:hover fieldset": {
                                                                         borderColor: "#ccc",
                                                                     },
@@ -445,11 +460,13 @@
                                                 sx={{
                                                     height: '48px',
                                                     "& .MuiOutlinedInput-root": {
+                                                        ...theme.typography.button,
                                                         height: '48px',
                                                         "& fieldset": {
                                                             borderColor: isEditing ? "#fff" : "#ccc",
                                                         },
                                                         ...(isEditing && {
+                                                            ...theme.typography.button,
                                                             "&:hover fieldset": {
                                                                 borderColor: "#ccc",
                                                             },
@@ -479,7 +496,7 @@
                         </Paper>
 
                     </Box>
-                    <Box sx={{ display: 'flex',flexDirection:{xs:'column',sm:'row'},width:{xs:'72vw',sm:'120px'}, justifyContent: {xs:'center',sm:'start'}, mt:'0.2vw',ml:{sm:'5.2vw',xs:'16vw'}, }}>
+                    <Box sx={{ display: 'flex',flexDirection:{xs:'column',sm:'row'},width:{xs:'72.2vw',sm:'120px'}, justifyContent: {xs:'center',sm:'start'}, mt:'0.2vw',ml:{sm:'5.2vw',xs:'14vw'}, }}>
                         {isEditing && (
                             <Button
                                 variant="contained"
