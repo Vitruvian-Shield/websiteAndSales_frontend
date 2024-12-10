@@ -1,152 +1,187 @@
 import React, { useState, useCallback } from "react";
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Snackbar, Alert } from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Snackbar, Alert, Box, Slider } from "@mui/material";
 import Cropper from "react-easy-crop";
-import Compressor from "compressorjs";  // کتابخانه برای فشرده‌سازی تصویر
+import Compressor from "compressorjs";
 
 const ImageCropDialog = ({ open, onClose, imageSrc, onCropComplete }) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
-    const [zoom, setZoom] = useState(1);
+    const [zoom, setZoom] = useState(1.3);
     const [croppedArea, setCroppedArea] = useState(null);
-    const [compressedImage, setCompressedImage] = useState(null); // ذخیره تصویر فشرده‌شده
-    const [openSnackbar, setOpenSnackbar] = useState(false); // وضعیت نمایش Snackbar
-    const [snackbarMessage, setSnackbarMessage] = useState(''); // پیام نمایش داده شده در Snackbar
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('error');
 
-    const handleCropComplete = useCallback((_, croppedAreaPixels) => {
-        setCroppedArea(croppedAreaPixels);
-    }, []);
+    const handleCropComplete = useCallback((_, croppedAreaPixels) => setCroppedArea(croppedAreaPixels), []);
 
-    // فشرده‌سازی تصویر قبل از کراپ
-    const compressImage = (imageFile) => {
-        return new Promise((resolve, reject) => {
-            new Compressor(imageFile, {
-                quality: 0.8,  // تنظیم کیفیت (بین 0 تا 1)
-                maxWidth: 1920,  // حداکثر عرض تصویر
-                maxHeight: 1920, // حداکثر ارتفاع تصویر
-                success(result) {
-                    // اگر فشرده‌سازی موفقیت‌آمیز بود، تصویر فشرده‌شده را به تابع resolve ارسال می‌کنیم
-                    resolve(result);
+    const getCroppedImg = (src, area) => new Promise((resolve, reject) => {
+        const image = new Image();
+        image.src = src;
+        image.crossOrigin = "anonymous";
+        image.onload = () => {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            canvas.width = 500;
+            canvas.height = 500;
+
+            ctx.drawImage(
+                image,
+                area.x,
+                area.y,
+                area.width,
+                area.height,
+                0,
+                0,
+                500,
+                500
+            );
+
+            canvas.toBlob(
+                (blob) => {
+                    if (blob) {
+                        const file = new File([blob], "cropped-image.png", { type: "image/png" });
+                        resolve(file);
+                    } else {
+                        reject(new Error("Failed to create a PNG file"));
+                    }
                 },
-                error(err) {
-                    reject(err);
-                }
-            });
-        });
-    };
+                "image/png",
+                1
+            );
+        };
+        image.onerror = () => reject(new Error("Failed to load image"));
+    });
 
-    // تبدیل تصویر به PNG و برگرداندن فایل کراپ‌شده
-    const getCroppedImg = (imageSrc, croppedAreaPixels) => {
-        return new Promise((resolve, reject) => {
-            const image = new Image();
-            image.src = imageSrc;
-            image.crossOrigin = "anonymous";  // برای بارگذاری تصاویر از منابع خارجی
-
-            image.onload = () => {
-                // بررسی ابعاد تصویر
-                if (image.width < 100 || image.height < 100) {
-                    reject(new Error("Image is too small for cropping"));
-                    return;
-                }
-
-                // ساخت canvas برای کراپ کردن تصویر
-                const canvas = document.createElement("canvas");
-                const ctx = canvas.getContext("2d");
-
-                canvas.width = croppedAreaPixels.width;
-                canvas.height = croppedAreaPixels.height;
-
-                // کراپ کردن تصویر با ابعاد مشخص‌شده
-                ctx.drawImage(
-                    image,
-                    croppedAreaPixels.x,
-                    croppedAreaPixels.y,
-                    croppedAreaPixels.width,
-                    croppedAreaPixels.height,
-                    0,
-                    0,
-                    croppedAreaPixels.width,
-                    croppedAreaPixels.height
-                );
-
-                // تبدیل تصویر کراپ‌شده به PNG
-                canvas.toBlob(
-                    (blob) => {
-                        if (blob) {
-                            // تبدیل Blob به فایل و تغییر نام به "avatar.png"
-                            const file = new File([blob], "avatar.png", { type: "image/png" });
-                            resolve(file); // ارسال فایل کراپ‌شده
-                        } else {
-                            reject(new Error("Failed to create a blob from the canvas"));
-                        }
-                    },
-                    "image/png",  // تبدیل به فرمت PNG
-                    1              // کیفیت تصویر
-                );
-            };
-
-            image.onerror = () => {
-                reject(new Error("Failed to load the image."));
-            };
-        });
-    };
+    const compressImage = (imageFile) => new Promise((resolve, reject) => {
+        new Compressor(imageFile, { quality: 0.8, maxWidth: 500, maxHeight: 500, success: resolve, error: reject });
+    });
 
     const handleSave = async () => {
-        if (croppedArea && imageSrc) {
-            try {
-                // فشرده‌سازی تصویر ابتدا انجام می‌شود
-                const imageFile = await compressImage(imageSrc);
-                const compressedImageUrl = URL.createObjectURL(imageFile);
-
-                // اکنون کراپ کردن انجام می‌شود
-                const croppedFile = await getCroppedImg(compressedImageUrl, croppedArea);
-                onCropComplete(croppedFile); // ارسال فایل کراپ‌شده به کامپوننت والد
-            } catch (e) {
-                console.error("Error processing the image: ", e);
-                setSnackbarMessage("There was an error processing the image. Please try again.");
-                setOpenSnackbar(true); // باز کردن Snackbar
-            }
+        if (!croppedArea) {
+            setSnackbarMessage("Please select an area to crop.");
+            setSnackbarSeverity('warning');
+            setOpenSnackbar(true);
+            return;
         }
-        onClose();  // بستن دیالوگ
-    };
 
-    // بسته شدن Snackbar
-    const handleCloseSnackbar = () => {
-        setOpenSnackbar(false);
+        try {
+            const croppedFile = await getCroppedImg(imageSrc, croppedArea);
+            const compressedFile = await compressImage(croppedFile);
+            onCropComplete(compressedFile);
+            setSnackbarMessage("Image cropped and saved successfully!");
+            setSnackbarSeverity('success');
+            setOpenSnackbar(true);
+            onClose();
+        } catch (e) {
+            setSnackbarMessage("Error processing the image.");
+            setSnackbarSeverity('error');
+            setOpenSnackbar(true);
+        }
     };
 
     return (
         <>
-            <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+            <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm"
+                    PaperProps={{
+                        style: {
+                            borderRadius: '15px',
+                            backgroundColor: '#262626',
+                            color: '#FFFFFF',
+                            maxWidth: '458px',
+                            overflow: 'hidden',
+                            maxHeight: '692px',
+                            boxSizing: 'border-box',
+                            position: 'relative',
+                        },
+                    }}
+            >
                 <DialogTitle>Crop Picture</DialogTitle>
-                <DialogContent>
-                    <div style={{ position: "relative", width: "100%", height: 300 }}>
+                <DialogContent
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: "100%",
+                        height: "450px",
+                        position: 'relative',
+                        flexDirection: 'column',
+                    }}
+                >
+                    <Box
+                        sx={{
+                            position: "relative",
+                            width: "100%",
+                            height: "100%",
+                            background: "rgba(0, 0, 0, 0.4)",
+                            borderRadius: "5%",
+                            overflow: "hidden",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                    >
                         <Cropper
                             image={imageSrc}
                             crop={crop}
                             zoom={zoom}
+                            cropShape="round"
                             aspect={1}
                             onCropChange={setCrop}
                             onZoomChange={setZoom}
                             onCropComplete={handleCropComplete}
                         />
-                    </div>
+                        <Box
+                            sx={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%",
+                                borderRadius: "5%",
+                                border: "2px solid #fff",
+                                pointerEvents: "none",
+                            }}
+                        />
+                    </Box>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            gap: 0,
+                            mt: 1,
+                            width: '100%',
+                            flexDirection: { xs: 'column', sm: 'row' },
+                        }}
+                    >
+                        <Slider
+                            value={zoom}
+                            min={1}
+                            max={3}
+                            step={0.1}
+                            onChange={(e, newValue) => setZoom(newValue)}
+                            sx={{
+                                width: { xs: '90%', sm: '80%' },
+                                ml: 1,
+                                mr: 2,
+                                color: '#8C8C8C',
+                            }}
+                        />
+                        <Button onClick={onClose} variant="contained"
+                                sx={{ minWidth: { xs: '93%', sm: '80px' }, minHeight: '40px', mr: { xs: '0', sm: '10px' }, border: '1px solid #FFFFFF', background: 'transparent' }}
+                        >Cancel</Button>
+                        <Button onClick={handleSave} variant="contained"
+                                sx={{ minWidth: { xs: '93.3%', sm: '80px' }, minHeight: '40px', background: '#B50304', mt: { xs: '10px', sm: '0px' } }}>Save</Button>
+                    </Box>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={onClose} color="secondary">
-                        Cancel
-                    </Button>
-                    <Button onClick={handleSave} color="primary">
-                        Save
-                    </Button>
-                </DialogActions>
             </Dialog>
 
-            {/* Snackbar برای نمایش پیام خطا */}
             <Snackbar
                 open={openSnackbar}
-                autoHideDuration={6000}  // مدت زمان نمایش پیام (در میلی‌ثانیه)
-                onClose={handleCloseSnackbar}
+                autoHideDuration={6000}
+                onClose={() => setOpenSnackbar(false)}
             >
-                <Alert onClose={handleCloseSnackbar} severity="error">
+                <Alert onClose={() => setOpenSnackbar(false)} severity={snackbarSeverity}>
                     {snackbarMessage}
                 </Alert>
             </Snackbar>

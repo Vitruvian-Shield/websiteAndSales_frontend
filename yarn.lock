@@ -3039,6 +3039,7 @@ swiper@^11.1.14:
     "@mui/lab" "^6.0.0-beta.14"
     "@mui/material" "^6.1.5"
     axios "^1.7.7"
+    compressorjs "^1.2.1"
     country-state-city "^3.2.1"
     libphonenumber-js "^1.11.15"
     lucide-react "^0.453.0"
