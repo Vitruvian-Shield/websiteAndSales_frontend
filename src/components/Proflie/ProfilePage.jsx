@@ -189,7 +189,7 @@
                 );
 
 
-                if (response.data.status === "success") {
+                if (response.data) {
                     console.log("Upload Successful:", response.data);
                     alert("Upload Successful");
                     window.location.reload();

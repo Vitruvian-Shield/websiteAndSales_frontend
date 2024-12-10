@@ -17,7 +17,7 @@ import Event from './Pages/Event.jsx';
 import ResetPassword from './components/home/ResetPassword.jsx';
 import Certification from './components/Dashboard/Certification.jsx';
 import Certifications from './Pages/Certifications.jsx';
-import GoogleLogin from "./pages/GoogleLogin.jsx";
+import GoogleLogin from "./Pages/GoogleLogin.jsx";
 
 const AppRoutes = () => {
         return (

@@ -96,7 +96,6 @@ const Navbar = React.memo((props) => {
     const openProductMenu = Boolean(anchorElProduct);
     const openProfileMenu = Boolean(anchorElProfile);
     const [isProductsOpen, setIsProductsOpen] = useState(false);
-    const toggleDrawer = useCallback((open) => () => setDrawerOpen(open), []);
     const { authToken, logout } = useAuth();
     const Token = localStorage.getItem('authToken') || authToken;
     const [picData , setPicData] = useState(null);
@@ -197,7 +196,6 @@ const Navbar = React.memo((props) => {
     ];
 
     const toggleDrawer = useCallback((open) => () => setDrawerOpen(open), []);
-    const { authToken, logout } = useAuth(); // Using the useAuth hook
 
     return (
         <>
@@ -249,7 +247,7 @@ const Navbar = React.memo((props) => {
                                 </IconButton>
                             </Box>
                             </Box>
-                            <Box sx={{ backgroundColor: '#141414', p: "8px 0px 8px 8px", borderRadius: '0px 0px 16px 16px' }}>
+                            <Box sx={{ backgroundColor: '#141414', p: "8px 0px 8px 8px", borderRadius: '0px 0px 16px 16px',minHeight:'580px', }}>
                             {pages.map((page, index) => (
                                 <React.Fragment key={page.path}>
                                     <MenuItem
@@ -323,22 +321,24 @@ const Navbar = React.memo((props) => {
 
                             <MenuItem>
                                 {authToken ? (
-                                    <>
-                                        <Button
-                                            variant="outlined"
-                                            onClick={handleProfileClick}
-                                            sx={{ color: '#ffffff', borderColor: '#B50304', fontSize: '15px' }}
-                                        >
-                                            Profile
-                                        </Button>
-                                        <Button
-                                            variant="outlined"
-                                            onClick={handleLogout}
-                                            sx={{ color: '#ffffff', borderColor: '#B50304', fontSize: '15px' }}
-                                        >
-                                            Log out
-                                        </Button>
-                                    </>
+
+                                        <Box sx={{display:'flex',flexDirection:'column',width:{xs:'86vw',sm:'75vw'},height:{xs:'9vw',sm:'6vw'},gap:'12px'}}>
+                                            <Button
+                                                variant="outlined"
+                                                onClick={handleProfileClick}
+                                                sx={{ color: '#ffffff', borderColor: '#B50304',background:'#B50304', fontSize: '15px',textTransform:'none' }}
+                                            >
+                                                Profile
+                                            </Button>
+                                            <Button
+                                                variant="outlined"
+                                                onClick={handleLogout}
+                                                sx={{ color: '#ffffff', borderColor: '#ffffff', fontSize: '15px',textTransform:'none' }}
+                                            >
+                                                Log out
+                                            </Button>
+
+                                        </Box>
                                 ) : (
                                     <Button
                                         variant="outlined"
