@@ -3,6 +3,7 @@ import { Box, Button, Typography, LinearProgress, createTheme } from '@mui/mater
 import { ThemeProvider } from "@mui/material/styles";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 
 const theme = createTheme({
@@ -32,7 +33,7 @@ const Slider = () => {
     useEffect(() => {
         const fetchSlides = async () => {
             try {
-                const fallbackResponse = await fetch('https://vitruvianshield.com/api/v1/events/websummit');
+                const fallbackResponse = await fetch(`${apiUrl}/api/v1/events/websummit`);
                 const fallbackData = await fallbackResponse.json();
 
                 const sortedData = fallbackData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));

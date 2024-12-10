@@ -5,6 +5,7 @@ import LoginDialog from './Login.jsx';
 import ForgotPasswordDialog from './ForgetPassword.jsx';
 import VerificationEmailDialog from './Verification.jsx';
 import { useNavigate } from "react-router-dom";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const SignUpDialog = ({ open, onClose, email: initialEmail = null }) => {
     const [dialogMode, setDialogMode] = useState('login');
@@ -39,7 +40,7 @@ const SignUpDialog = ({ open, onClose, email: initialEmail = null }) => {
     };
 
     const handleResendVerificationEmail = (email) => {
-        fetch('https://vitruvianshield.com/api/v1/request-verification-code/', {
+        fetch(`${apiUrl}/api/v1/request-verification-code/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
