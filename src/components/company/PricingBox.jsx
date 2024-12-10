@@ -248,6 +248,7 @@ const PricingBox = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     width: '100%',
+                    height:'auto',
                     backgroundImage: `linear-gradient(180deg, rgba(31, 31, 31, 0.9) 0%, rgba(31, 31, 31, 0.72) 100%), url(${pricingBG})`,
                     backgroundSize: 'cover',
                 }}
@@ -281,7 +282,6 @@ const PricingBox = () => {
                 <Box
                     sx={{
                         gap: { xs:'24px',sm: 5, md: 5 },
-                        width: '848px',
                         justifyContent: 'center',
                         alignItems: 'center',
                         mt:2,
@@ -300,7 +300,6 @@ const PricingBox = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             border: '1px solid #FFFFFF33',
-                            flex: '1 1',
                             width: { sm: '296px', md: '350px', lg: '380px', xl: '404px' },
                             height: { sm: '469px', md: '530px', lg: '560px', xl: '581px' },
                         }}
@@ -463,7 +462,6 @@ const PricingBox = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             border: '1px solid #FFFFFF33',
-                            flex: '1 1',
                             width: { sm: '296px', md: '350px', lg: '380px', xl: '404px' },
                             height: { sm: '469px', md: '530px', lg: '560px', xl: '581px' },
                         }}
