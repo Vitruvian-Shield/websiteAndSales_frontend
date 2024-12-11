@@ -23,7 +23,7 @@ const ChangeNumberDialog = ({ open, onClose }) => {
 
     useEffect(() => {
         const fetchCountries = async () => {
-            const response = await fetch("${apiUrl}/api/v1/countries");
+            const response = await fetch(`${apiUrl}/api/v1/countries`);
             const data = await response.json();
             setCountries(data);
         };

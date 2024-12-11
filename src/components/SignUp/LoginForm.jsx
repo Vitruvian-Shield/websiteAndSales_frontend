@@ -59,7 +59,7 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
 
         try {
             if (!signIn) {
-                const loginResponse = await fetch('${apiUrl}/api/v1/token/', {
+                const loginResponse = await fetch(`${apiUrl}/api/v1/token/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
