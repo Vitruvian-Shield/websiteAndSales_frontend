@@ -69,8 +69,8 @@ const ImageCropDialog = ({ open, onClose, imageSrc, onCropComplete }) => {
             const croppedFile = await getCroppedImg(imageSrc, croppedArea);
             const compressedFile = await compressImage(croppedFile);
             onCropComplete(compressedFile);
-            setSnackbarMessage("Image cropped and saved successfully!");
-            setSnackbarSeverity('success');
+            setSnackbarMessage("Uploading the file, please wait...");
+            setSnackbarSeverity('warning');
             setOpenSnackbar(true);
             onClose();
         } catch (e) {
