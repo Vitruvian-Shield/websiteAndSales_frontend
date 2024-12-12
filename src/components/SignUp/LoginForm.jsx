@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { createTheme } from '@mui/material/styles';
 import FormInput from '../custom/FormInput';
 import GoogleSignInButton from './GoogleSignInButton';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const theme = createTheme({
     typography: {},
@@ -58,7 +59,7 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
 
         try {
             if (!signIn) {
-                const loginResponse = await fetch('https://vitruvianshield.com/api/v1/token/', {
+                const loginResponse = await fetch(`${apiUrl}/api/v1/token/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -80,7 +81,7 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
                     showSnackbar(errorData.message || 'Login failed. Please try again.', 'error');
                 }
             } else {
-                const registerResponse = await fetch('https://vitruvianshield.com/api/v1/register/', {
+                const registerResponse = await fetch(`${apiUrl}/api/v1/register/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -105,7 +106,7 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
 
     const handleSuccessGoogle = async (response) => {
         try {
-            const res = await fetch('https://vitruvianshield.com/api/v1/auth/google/callback/', {
+            const res = await fetch(`${apiUrl}/api/v1/auth/google/callback/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ code: response.code }),
