@@ -39,7 +39,8 @@ const ImageCropDialog = ({ open, onClose, imageSrc, onCropComplete }) => {
             canvas.toBlob(
                 (blob) => {
                     if (blob) {
-                        const file = new File([blob], "cropped-image.png", { type: "image/png" });
+                        const random = Date.now();
+                        const file = new File([blob], `UserPic-${random}.png`, { type: "image/png" });
                         resolve(file);
                     } else {
                         reject(new Error("Failed to create a PNG file"));

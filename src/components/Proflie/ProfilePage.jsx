@@ -109,6 +109,7 @@
             const downloadAndStoreImage = async (imageUrl) => {
                 try {
                     const response = await fetch(imageUrl, {
+                        cache: 'no-cache',
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${Token}`,
