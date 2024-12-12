@@ -48,15 +48,15 @@ const SignUpDialog = ({ open, onClose, email: initialEmail = null }) => {
             body: JSON.stringify({ email })
         })
             .then(response => {
-                if (!response.ok) throw new Error('Failed to resend verification email');
+                if (!response.ok) throw new Error('Failed to send verification email');
                 return response.json();
             })
             .then(data => {
-                showSnackbar('Verification email resent successfully!');
+                showSnackbar('Verification email sent successfully!');
             })
             .catch(error => {
-                console.error('Error resending verification email:', error);
-                showSnackbar('Error resending verification email.', 'error');
+                console.error('Error sending verification email:', error);
+                showSnackbar('Error sending verification email.', 'error');
             });
     };
 
