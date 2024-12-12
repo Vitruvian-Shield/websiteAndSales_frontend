@@ -1,5 +1,17 @@
     import React, { useState, useEffect } from 'react';
-    import { Box, Typography, TextField, Avatar, Paper, ThemeProvider, createTheme, Autocomplete, Button, Dialog } from '@mui/material';
+    import {
+    Box,
+    Typography,
+    TextField,
+    Avatar,
+    Paper,
+    ThemeProvider,
+    createTheme,
+    Autocomplete,
+    Button,
+    Dialog,
+        Alert, Snackbar
+    } from '@mui/material';
     import axios from 'axios';
     import { useAuth } from '../../AuthContext.jsx';
     import ChangeEmail from './ChangeEmail';
@@ -77,7 +89,15 @@
         const [focused, setFocused] = useState(false);
         const [isDialogOpen, setIsDialogOpen] = useState(false);
         const [srcPic, setSrcPic] = useState(null);
+        const [snackbarOpen, setSnackbarOpen] = useState(false);
+        const [snackbarMessage, setSnackbarMessage] = useState('');
+        const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
+        const showSnackbar = (message, severity = 'success') => {
+            setSnackbarMessage(message);
+            setSnackbarSeverity(severity);
+            setSnackbarOpen(true);
+        };
 
         useEffect(() => {
             const fetchUserData = async () => {
@@ -109,6 +129,7 @@
             const downloadAndStoreImage = async (imageUrl) => {
                 try {
                     const response = await fetch(imageUrl, {
+                        cache: 'no-cache',
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${Token}`,
@@ -189,7 +210,6 @@
             try {
                 const formData = new FormData();
                 formData.append("picture", file);
-
                 const response = await axios.post(
                     `${apiUrl}/api/v1/user/new-picture/`,
                     formData,
@@ -200,21 +220,21 @@
                     }
                 );
 
-
                 if (response.data) {
                     console.log("Upload Successful:", response.data);
-                    alert("Upload Successful");
+                    alert("File uploaded successfully!");
                     window.location.reload();
                 }
             } catch (error) {
                 console.error("Upload Failed:", error.response?.data || error.message);
-                alert("An error occurred during file upload.");
+                alert("An error occurred while uploading the file.");
             }
         };
+
         const handleCropComplete = async (croppedArea) => {
             console.log("Cropped Area: ", croppedArea, croppedArea.type);
-
-            const croppedFile = new File([croppedArea], "cropped-image.png", { type: "image/png" });
+            const random = Date.now();
+            const croppedFile = new File([croppedArea], `UserPic-${random}.png`, { type: "image/png" });
             console.log("Cropped File: ", croppedFile);
             // آپلود فایل
             if (croppedFile) {
@@ -223,8 +243,8 @@
         };
 
         return (
-            <ThemeProvider theme={theme}>
-                <Box sx={{ width: '100%', background: '#262626',alignContent:'center',height: '100%',mb:{ sm: '0vw', xs: '13vw' },pt:{ sm: '4.5vw', xs: '0vw' },pb:'3vw' }}>
+        <ThemeProvider theme={theme}>
+            <Box sx={{ width: '100%', background: '#262626',alignContent:'center',height: '100%',mb:{ sm: '0vw', xs: '13vw' },pt:{ sm: '4.5vw', xs: '0vw' },pb:'3vw' }}>
                     <Box
                         sx={{
                             ml:{ sm: '5vw', xs: '0' },
@@ -523,6 +543,16 @@
                         </Button>
                     </Box>
                 </Box>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={() => setSnackbarOpen(false)}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+            >
+                <Alert onClose={() => setSnackbarOpen(false)} severity={snackbarSeverity}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
 
                 <ChangeEmail open={dialogOpen} onClose={() => setDialogOpen(false)} />
                 <ChangePhone open={PhoneDialogOpen} onClose={() => setPhoneDialogOpen(false)} />
