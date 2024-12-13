@@ -67,7 +67,7 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
                     body: JSON.stringify({email, password}),
                 });
 
-                if (loginResponse.ok) {
+                if (loginResponse.status === 200) {
                     const loginData = await loginResponse.json();
                     localStorage.setItem('authToken', loginData.access);
                     localStorage.setItem('refreshToken', loginData.refresh);
@@ -76,6 +76,8 @@ const AuthForm = ({ email: initialEmail = null, onForgotPassword, onLoginSuccess
                 } else if (loginResponse.status === 202) {
                     showSnackbar('User not verified.', 'error');
                     onSendResetLink(email);
+                } else if (loginResponse.status === 401) {
+                    showSnackbar('No account found with given credentials!,please signUp First', 'error');
                 } else {
                     const errorData = await loginResponse.json();
                     showSnackbar(errorData.message || 'Login failed. Please try again.', 'error');

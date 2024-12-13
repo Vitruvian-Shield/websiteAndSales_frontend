@@ -39,7 +39,8 @@ const ImageCropDialog = ({ open, onClose, imageSrc, onCropComplete }) => {
             canvas.toBlob(
                 (blob) => {
                     if (blob) {
-                        const file = new File([blob], "cropped-image.png", { type: "image/png" });
+                        const random = Date.now();
+                        const file = new File([blob], `UserPic-${random}.png`, { type: "image/png" });
                         resolve(file);
                     } else {
                         reject(new Error("Failed to create a PNG file"));
@@ -68,8 +69,8 @@ const ImageCropDialog = ({ open, onClose, imageSrc, onCropComplete }) => {
             const croppedFile = await getCroppedImg(imageSrc, croppedArea);
             const compressedFile = await compressImage(croppedFile);
             onCropComplete(compressedFile);
-            setSnackbarMessage("Image cropped and saved successfully!");
-            setSnackbarSeverity('success');
+            setSnackbarMessage("Uploading the file, please wait...");
+            setSnackbarSeverity('warning');
             setOpenSnackbar(true);
             onClose();
         } catch (e) {
